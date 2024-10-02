@@ -2,6 +2,8 @@
 
 import { usePathname } from "next/navigation";
 
+import withAuth from "@/utils/withAuth";
+
 import AppBar from "./AppBar";
 import Toast from "./Toast";
 
@@ -17,4 +19,4 @@ const Wrapper = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Wrapper;
+export default withAuth(Wrapper);

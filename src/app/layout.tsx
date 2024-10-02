@@ -2,6 +2,7 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";
 
+import { AuthProvider } from "@/provider/AuthProvider";
 import "./globals.css";
 
 const sora = Sora({ subsets: ["latin"] });
@@ -24,7 +25,7 @@ export default function RootLayout({
       </head>
       <body className={clsx("bg-neutral-100", sora.className)}>
         <div className="max-w-[480px] mx-auto bg-gradient-to-br from-pink-200 via-purple-100 to-indigo-100 md:shadow-md min-h-screen">
-          {children}
+          <AuthProvider>{children}</AuthProvider>
         </div>
       </body>
     </html>
