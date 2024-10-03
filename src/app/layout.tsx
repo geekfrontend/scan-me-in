@@ -2,8 +2,9 @@ import clsx from "clsx";
 import type { Metadata } from "next";
 import { Sora } from "next/font/google";
 
-import { AuthProvider } from "@/provider/AuthProvider";
 import "./globals.css";
+
+import { AuthProvider } from "@/provider/AuthProvider";
 
 const sora = Sora({ subsets: ["latin"] });
 

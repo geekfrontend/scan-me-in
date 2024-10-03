@@ -1,13 +1,15 @@
 import ProtectedRoute from "@/common/components/ProtectedRoute";
 import Wrapper from "@/common/components/Wrapper";
-import Home from "@/modules/home";
+import Profile from "@/modules/profile";
 
-export default function HomePage() {
+const ProfilPage = () => {
   return (
     <ProtectedRoute>
       <Wrapper>
-        <Home />
+        <Profile />
       </Wrapper>
     </ProtectedRoute>
   );
-}
+};
+
+export default ProfilPage;
