@@ -25,7 +25,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={clsx("bg-neutral-100", sora.className)}>
-        <div className="max-w-[480px] mx-auto bg-gradient-to-br from-pink-200 via-purple-100 to-indigo-100 md:shadow-md min-h-screen">
+        <div className="max-w-[480px] mx-auto bg-gradient-to-br  md:shadow-md min-h-screen">
           <AuthProvider>{children}</AuthProvider>
         </div>
       </body>

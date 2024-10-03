@@ -12,7 +12,7 @@ const PageHeader = ({ title, isBackButton = false }: PageHeaderProps) => {
   const router = useRouter();
 
   return (
-    <div className="flex gap-5 items-center pt-8 px-8 pb-16">
+    <div className=" flex gap-5 items-center bg-[url('https://preline.co/assets/svg/examples/abstract-bg-1.svg')] bg-no-repeat bg-cover bg-center pt-8 px-8 pb-16">
       {isBackButton && (
         <div
           className="absolute bg-white rounded-full p-2 cursor-pointer"

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { ReactNode } from "react";
 import { BsCalendar3 as CalendarIcon } from "react-icons/bs";
 import { HiOutlineCamera, HiOutlineHome, HiOutlineUser } from "react-icons/hi";
+
 import Camera from "./Camera";
 
 interface MenuProps {
@@ -50,15 +51,15 @@ const AppBar = () => {
             <div className="fixed inset-0 bg-black opacity-50" />
 
             <div className="relative w-full max-w-[480px] h-full">
-              <div className="relative p-4 bg-white shadow dark:bg-gray-700 w-full h-full">
+              <div className="relative flex flex-col justify-center p-4 bg-white shadow dark:bg-gray-700 w-full h-full">
                 <div className="h-96 w-96 mx-auto">
                   <Camera />
                 </div>
-
-                <div className="w-full">
+                <div></div>
+                <div className="w-full flex justify-center">
                   <button
                     onClick={() => setShowModal(false)}
-                    className="relative cursor-pointer mx-auto opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-blue-700 to-blue-400 active:scale-95 rounded-[16px]"
+                    className="relative cursor-pointer  opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-blue-700 to-blue-400 active:scale-95 rounded-[16px]"
                   >
                     <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-blue-500 text-white rounded-[14px]">
                       Tutup

@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <>
       <Hero />
-      <div className="p-6 -mt-8 pb-28 rounded-t-3xl min-h-screen bg-gradient-to-br from-purple-50 via-pink-50 to-indigo-50">
+      <div className="p-6 -mt-8 pb-28 rounded-t-3xl min-h-screen  bg-white">
         <div className="w-full p-5 border bg-white border-neutral-100 shadow-t-sm space-y-5 rounded-3xl transition-all duration-300">
           <div className="flex gap-3 items-center mb-2">
             <h5 className="font-medium">Hello World</h5>
