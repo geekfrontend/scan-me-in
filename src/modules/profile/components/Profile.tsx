@@ -13,14 +13,15 @@ const Profile = () => {
   const router = useRouter();
 
   const [userData, setUserData] = useState({
-    fullName: "GeekFrontend",
-    email: "geekfrontend@gmail.com",
-    username: "geekfrontend",
+    fullName: "",
+    email: "",
+    username: "",
   });
 
   const handleSignOut = async () => {
     try {
       await signOut(auth);
+
       console.log("User signed out");
       router.push("/login");
     } catch (error) {

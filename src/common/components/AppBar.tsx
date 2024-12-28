@@ -40,6 +40,7 @@ const MENU: MenuProps[] = [
 const AppBar = () => {
   const pathname = usePathname();
   const [showModal, setShowModal] = useState(false);
+  const [isPresencedMorning, setIsPresencedMorning] = useState(true);
 
   return (
     <div className="fixed bottom-0 w-full max-w-[480px] mx-auto">
@@ -70,9 +71,11 @@ const AppBar = () => {
           <div className="flex justify-center">
             <button
               onClick={() => setShowModal(true)}
-              className="relative cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-blue-700 to-blue-400 active:scale-95 rounded-[16px]"
+              className={`relative cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-${isPresencedMorning ? "red" : "blue"}-700 to-${isPresencedMorning ? "red" : "blue"}-400 active:scale-95 rounded-[16px]`}
             >
-              <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-blue-500 text-white rounded-[14px]">
+              <span
+                className={`w-full h-full flex items-center gap-2 px-8 py-3 bg-${isPresencedMorning ? "red" : "blue"}-500 text-white rounded-[14px]`}
+              >
                 <HiOutlineCamera size={iconSize} />
                 Presence with camera
               </span>

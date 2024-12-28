@@ -2,7 +2,7 @@ const Hero = () => {
   return (
     <div className="px-8 pt-8 pb-16 bg-[url('https://preline.co/assets/svg/examples/abstract-bg-1.svg')] bg-no-repeat bg-cover bg-center space-y-6">
       <div className="space-y-3">
-        <div className="text-neutral-800">Hi, GeekFrontend</div>
+        <div className="text-neutral-800">Hi, Renzo</div>
         <h1 className="text-neutral-950 text-2xl leading-snug font-semibold">
           The Easy Way to <br /> Confirm Your Attendance
         </h1>

@@ -86,7 +86,7 @@ const HistoryCard = ({
               <div
                 className={clsx(
                   "py-0.5 px-2 text-white rounded-full text-[11px]",
-                  getStatusColor()
+                  getStatusColor(),
                 )}
               >
                 {formattedStatus}
