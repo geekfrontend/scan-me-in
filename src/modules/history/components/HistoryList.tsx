@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 import Loading from "@/common/components/Loading";
 
+import { auth } from "@/configs/firebase";
 import { supabase } from "@/utils/supabase";
 
 import HistoryCard from "./HistoryCard";
@@ -13,12 +14,15 @@ const HistoryList = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [histories, setHistories] = useState<any[]>([]);
 
+  const userId = auth.currentUser?.uid;
+
   const fetchHistory = async () => {
     try {
       const { data, error } = await supabase
         .from("histories")
         .select("*")
-        .range(0, 9);
+        .range(0, 9)
+        .eq("user_id", userId);
       if (error) {
         throw error;
       }

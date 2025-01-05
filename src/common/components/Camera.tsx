@@ -3,6 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 
+import { checkIn, checkOut } from "@/services/check";
+
 import { auth } from "@/configs/firebase";
 import { useUploadThing } from "@/utils/uploadthing";
 
@@ -11,15 +13,18 @@ import Loading from "./Loading";
 const Camera = ({
   handleBack,
   changeProfile,
+  check,
 }: {
   handleBack: () => void;
   changeProfile?: (url: string) => void;
+  check?: string;
 }) => {
   const [modelsLoaded, setModelsLoaded] = useState(false);
   const [loading, setLoading] = useState(false);
   const webcamRef = useRef<Webcam>(null);
 
   const currentUserPhotoURL = auth.currentUser?.photoURL || "";
+  const userId = auth.currentUser?.uid.toString() || "";
 
   useEffect(() => {
     const loadModels = async () => {
@@ -70,7 +75,6 @@ const Camera = ({
             type: "image/jpeg",
           });
 
-          // Upload using UploadThing
           await startUpload([file]);
         } catch (error) {
           console.error("Error capturing/uploading photo:", error);
@@ -81,7 +85,6 @@ const Camera = ({
     }
   };
 
-  // Fungsi captureAndCompare untuk membandingkan wajah
   const captureAndCompare = async () => {
     if (webcamRef.current && currentUserPhotoURL) {
       const imageSrc = webcamRef.current.getScreenshot();
@@ -116,6 +119,11 @@ const Camera = ({
 
             if (distance < 0.6) {
               toast.success("Faces match with high confidence");
+              if (check === "IN") {
+                checkIn(userId);
+              } else {
+                checkOut(userId);
+              }
               handleBack();
             } else {
               toast.error("Faces do not match");

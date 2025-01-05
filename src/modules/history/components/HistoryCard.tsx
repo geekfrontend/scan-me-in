@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { format, parse } from "date-fns";
+import moment from "moment";
 import { useState } from "react";
 import {
   HiOutlineCheckCircle as CompletedIcon,
@@ -14,8 +15,8 @@ import { HistoryItemProps } from "@/common/types";
 
 const HistoryCard = ({
   date,
-  checkInTime,
-  checkOutTime,
+  check_in_time,
+  check_out_time,
   status,
 }: HistoryItemProps) => {
   const [isShowAction, setIsShowAction] = useState(false);
@@ -73,11 +74,11 @@ const HistoryCard = ({
         <div className="space-y-3">
           <div className="flex gap-2 text-xs">
             <PatientIcon size={14} />
-            <div>Check In: {checkInTime}</div>
+            <div>Check In: {moment(check_in_time).format("hh:mm A")} </div>
           </div>
           <div className="flex gap-2 text-xs">
             <PatientIcon size={14} />
-            <div>Check Out: {checkOutTime}</div>
+            <div>Check Out: {moment(check_out_time).format("hh:mm A")}</div>
           </div>
           <div className="flex gap-2 text-xs">
             {getStatusIcon()}
