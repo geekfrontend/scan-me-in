@@ -1,21 +1,38 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
 
 import Loading from "@/common/components/Loading";
 
-import { dummyHistory } from "@/utils/dummy";
+import { supabase } from "@/utils/supabase";
 
 import HistoryCard from "./HistoryCard";
 
 const HistoryList = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [histories, setHistories] = useState<any[]>([]);
+
+  const fetchHistory = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("histories")
+        .select("*")
+        .range(0, 9);
+      if (error) {
+        throw error;
+      }
+      setHistories(data);
+      console.log("Fetched data:", data);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 2000);
+    fetchHistory();
   }, []);
 
   return (
@@ -24,10 +41,10 @@ const HistoryList = () => {
         <div className="flex justify-center mt-2">
           <Loading />
         </div>
-      ) : dummyHistory.length ? (
+      ) : histories.length ? (
         <div className="flex flex-col gap-y-4">
-          {dummyHistory.map((history) => (
-            <HistoryCard key={history.date} {...history} />
+          {histories.map((history) => (
+            <HistoryCard key={history.id} {...history} />
           ))}
         </div>
       ) : (

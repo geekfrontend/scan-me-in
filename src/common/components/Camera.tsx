@@ -1,81 +1,134 @@
-/* eslint-disable @next/next/no-img-element */
 import * as faceapi from "face-api.js";
 import React, { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 import Webcam from "react-webcam";
+
+import { auth } from "@/configs/firebase";
+import { useUploadThing } from "@/utils/uploadthing";
 
 import Loading from "./Loading";
 
-const Camera: React.FC = () => {
-  const [modelsLoaded, setModelsLoaded] = useState<boolean>(false);
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
-  const [internetImageUrl, setInternetImageUrl] = useState<string>("");
-  const [comparisonResult, setComparisonResult] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
-
+const Camera = ({
+  handleBack,
+  changeProfile,
+}: {
+  handleBack: () => void;
+  changeProfile?: (url: string) => void;
+}) => {
+  const [modelsLoaded, setModelsLoaded] = useState(false);
+  const [loading, setLoading] = useState(false);
   const webcamRef = useRef<Webcam>(null);
+
+  const currentUserPhotoURL = auth.currentUser?.photoURL || "";
 
   useEffect(() => {
     const loadModels = async () => {
       const MODEL_URL = "/models";
-
-      Promise.all([
+      await Promise.all([
         faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
         faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
         faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-      ]).then(() => {
-        setModelsLoaded(true);
-        console.log("Models loaded");
-      });
+      ]);
+      setModelsLoaded(true);
+      console.log("Models loaded");
     };
     loadModels();
   }, []);
 
-  const captureImage = () => {
+  const { startUpload } = useUploadThing("imageUploader", {
+    onClientUploadComplete: (res) => {
+      if (res?.[0]?.url && changeProfile) {
+        changeProfile(res[0].url);
+      }
+    },
+    onUploadError: (error) => {
+      toast.error(error.message);
+    },
+  });
+
+  const capture = async () => {
     if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
-      setCapturedImage(imageSrc);
+
+      if (imageSrc) {
+        setLoading(true);
+
+        try {
+          const base64Data = imageSrc.split(",")[1];
+          const byteCharacters = atob(base64Data);
+          const byteArrays = [];
+
+          for (let i = 0; i < byteCharacters.length; i++) {
+            byteArrays.push(byteCharacters.charCodeAt(i));
+          }
+
+          const blob = new Blob([new Uint8Array(byteArrays)], {
+            type: "image/jpeg",
+          });
+
+          const file = new File([blob], "photo.jpg", {
+            type: "image/jpeg",
+          });
+
+          // Upload using UploadThing
+          await startUpload([file]);
+        } catch (error) {
+          console.error("Error capturing/uploading photo:", error);
+        } finally {
+          setLoading(false);
+        }
+      }
     }
   };
 
-  const compareWithInternetImage = async () => {
-    if (capturedImage && internetImageUrl) {
-      setLoading(true);
-      try {
-        const cameraImage = await faceapi.fetchImage(capturedImage);
-        const internetImage = await faceapi.fetchImage(internetImageUrl);
+  // Fungsi captureAndCompare untuk membandingkan wajah
+  const captureAndCompare = async () => {
+    if (webcamRef.current && currentUserPhotoURL) {
+      const imageSrc = webcamRef.current.getScreenshot();
 
-        const detection1 = await faceapi
-          .detectSingleFace(cameraImage, new faceapi.TinyFaceDetectorOptions())
-          .withFaceLandmarks()
-          .withFaceDescriptor();
+      if (imageSrc) {
+        setLoading(true);
+        try {
+          const cameraImage = await faceapi.fetchImage(imageSrc);
+          const userPhotoImage = await faceapi.fetchImage(currentUserPhotoURL);
 
-        const detection2 = await faceapi
-          .detectSingleFace(
-            internetImage,
-            new faceapi.TinyFaceDetectorOptions(),
-          )
-          .withFaceLandmarks()
-          .withFaceDescriptor();
+          const detection1 = await faceapi
+            .detectSingleFace(
+              cameraImage,
+              new faceapi.TinyFaceDetectorOptions(),
+            )
+            .withFaceLandmarks()
+            .withFaceDescriptor();
 
-        if (detection1 && detection2) {
-          const distance = faceapi.euclideanDistance(
-            detection1.descriptor,
-            detection2.descriptor,
-          );
+          const detection2 = await faceapi
+            .detectSingleFace(
+              userPhotoImage,
+              new faceapi.TinyFaceDetectorOptions(),
+            )
+            .withFaceLandmarks()
+            .withFaceDescriptor();
 
-          setComparisonResult(
-            distance < 0.6
-              ? "Faces match with high confidence."
-              : "Faces do not match.",
-          );
-        } else {
-          setComparisonResult("Unable to detect faces in one or both images.");
+          if (detection1 && detection2) {
+            const distance = faceapi.euclideanDistance(
+              detection1.descriptor,
+              detection2.descriptor,
+            );
+
+            if (distance < 0.6) {
+              toast.success("Faces match with high confidence");
+              handleBack();
+            } else {
+              toast.error("Faces do not match");
+            }
+          } else {
+            toast.error("Unable to detect faces in one or both images");
+          }
+        } catch (error) {
+          console.error("Error comparing images:", error);
+          toast.error("Error comparing images");
+        } finally {
+          setLoading(false);
         }
-      } catch (error) {
-        console.error("Error comparing images:", error);
-        setComparisonResult("An error occurred during comparison.");
-      } finally {
-        setLoading(false);
       }
     }
   };
@@ -100,50 +153,27 @@ const Camera: React.FC = () => {
                 }}
               />
             </div>
-            <button
-              onClick={captureImage}
-              className="mt-4 cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-blue-700 to-blue-400 active:scale-95 rounded-[16px]"
-            >
-              <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-blue-500 text-white rounded-[14px]">
-                Capture Image
-              </span>
-            </button>
-            {capturedImage && (
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold mb-2">Captured Image:</h3>
-                <img
-                  src={capturedImage}
-                  alt="Captured"
-                  className="w-[100px] h-[100px] rounded-full object-cover border-2"
-                />
-              </div>
-            )}
-            <div className="mt-4">
-              <input
-                type="text"
-                placeholder="Enter image URL"
-                value={internetImageUrl}
-                onChange={(e) => setInternetImageUrl(e.target.value)}
-                className="border p-2 rounded w-full"
-              />
-              <button
-                onClick={compareWithInternetImage}
-                disabled={!capturedImage || !internetImageUrl || loading}
-                className="mt-4 cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-green-700 to-green-400 active:scale-95 rounded-[16px]"
-              >
-                <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-green-500 text-white rounded-[14px]">
-                  {loading ? "Processing..." : "Compare with Internet Image"}
-                </span>
-              </button>
+            <div className="mt-4 flex gap-4 justify-center">
+              {changeProfile ? (
+                <button
+                  onClick={capture}
+                  className="cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-blue-700 to-blue-400 active:scale-95 rounded-[16px]"
+                >
+                  <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-blue-500 text-white rounded-[14px]">
+                    {loading ? "Uploading..." : "Capture"}
+                  </span>
+                </button>
+              ) : (
+                <button
+                  onClick={captureAndCompare}
+                  className="cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-green-700 to-green-400 active:scale-95 rounded-[16px]"
+                >
+                  <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-green-500 text-white rounded-[14px]">
+                    {loading ? "Processing..." : "Capture & Compare"}
+                  </span>
+                </button>
+              )}
             </div>
-            {comparisonResult && (
-              <div className="mt-4">
-                <h3 className="text-lg font-semibold mb-2">
-                  Comparison Result:
-                </h3>
-                <p>{comparisonResult}</p>
-              </div>
-            )}
           </>
         ) : (
           <Loading />

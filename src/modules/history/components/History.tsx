@@ -1,3 +1,5 @@
+"use client";
+
 import PageHeader from "@/common/components/PageHeader";
 import PageWrapper from "@/common/components/PageWrapper";
 

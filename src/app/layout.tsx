@@ -9,6 +9,11 @@ import { AuthProvider } from "@/provider/AuthProvider";
 
 const sora = Sora({ subsets: ["latin"] });
 
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { extractRouterConfig } from "uploadthing/server";
+
+import { ourFileRouter } from "@/app/api/uploadthing/core";
+
 export const metadata: Metadata = {
   title: "Scan Me In",
   description: "by geekfrontend",
@@ -26,6 +31,7 @@ export default function RootLayout({
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body className={clsx("bg-neutral-100", sora.className)}>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
         <div className="max-w-[480px] mx-auto bg-gradient-to-br  md:shadow-md min-h-screen">
           <Toaster />
           <AuthProvider>{children}</AuthProvider>

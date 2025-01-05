@@ -26,10 +26,10 @@ const HistoryCard = ({
 
   const getStatusIcon = () => {
     switch (status) {
-      case "ontime":
+      case "ONTIME":
         return <CompletedIcon size={14} className="text-green-500" />;
 
-      case "late":
+      case "LATE":
         return <LateIcon size={14} className="text-yellow-500" />;
 
       default:
@@ -39,10 +39,10 @@ const HistoryCard = ({
 
   const getStatusColor = () => {
     switch (status) {
-      case "ontime":
+      case "ONTIME":
         return "bg-green-500";
 
-      case "late":
+      case "LATE":
         return "bg-yellow-500";
 
       default:
