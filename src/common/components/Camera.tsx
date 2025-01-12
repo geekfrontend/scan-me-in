@@ -168,7 +168,7 @@ const Camera = ({
                   className="cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-blue-700 to-blue-400 active:scale-95 rounded-[16px]"
                 >
                   <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-blue-500 text-white rounded-[14px]">
-                    {loading ? <loading /> : "Unggah"}
+                    {loading ? <Loading /> : "Unggah"}
                   </span>
                 </button>
               ) : (
@@ -177,7 +177,7 @@ const Camera = ({
                   className="cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-green-700 to-green-400 active:scale-95 rounded-[16px]"
                 >
                   <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-green-500 text-white rounded-[14px]">
-                    {loading ? <loading /> : "Ambil Foto dan Cek"}
+                    {loading ? <Loading /> : "Ambil Foto dan Cek"}
                   </span>
                 </button>
               )}
