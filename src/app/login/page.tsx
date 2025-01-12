@@ -51,7 +51,7 @@ const LoginPage = () => {
       if (userCredential.user) {
         router.push("/");
       }
-      toast.success("Login successfully");
+      toast.success("Berhasil masuk");
       console.log("User logged in:", userCredential.user);
       setLoading(false);
     } catch (error) {
@@ -75,7 +75,7 @@ const LoginPage = () => {
         <div className="p-4 sm:p-7">
           <div className="text-center">
             <h1 className="block text-2xl font-bold text-gray-800 dark:text-white">
-              Login
+              Masuk
             </h1>
           </div>
 
@@ -95,7 +95,7 @@ const LoginPage = () => {
                   className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
                     errors.email ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder="Enter your email"
+                  placeholder="Masukkan email"
                 />
                 {errors.email && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -109,7 +109,7 @@ const LoginPage = () => {
                   htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300"
                 >
-                  Password
+                  Kata Sandi
                 </label>
                 <input
                   {...register("password")}
@@ -118,7 +118,7 @@ const LoginPage = () => {
                   className={`bg-gray-50 border text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white ${
                     errors.password ? "border-red-500" : "border-gray-300"
                   }`}
-                  placeholder="Enter your password"
+                  placeholder="Masukkan kata sandi"
                 />
                 {errors.password && (
                   <p className="mt-2 text-sm text-red-600 dark:text-red-500">
@@ -138,7 +138,7 @@ const LoginPage = () => {
                     <Loading />
                   </div>
                 ) : (
-                  "Login"
+                  "Masuk"
                 )}
               </button>
             </form>

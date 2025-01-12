@@ -8,7 +8,7 @@ import HistoryList from "./HistoryList";
 const History = () => {
   return (
     <>
-      <PageHeader title="History" />
+      <PageHeader title="Riwayat" />
       <PageWrapper>
         <HistoryList />
       </PageWrapper>

@@ -24,17 +24,17 @@ const iconSize: number = 18;
 
 const MENU: MenuProps[] = [
   {
-    name: "History",
+    name: "Riwayat",
     icon: <CalendarIcon size={iconSize} />,
     path: "/history",
   },
   {
-    name: "Home",
+    name: "Beranda",
     icon: <HiOutlineHome size={iconSize} />,
     path: "/",
   },
   {
-    name: "Profile",
+    name: "Profil",
     icon: <HiOutlineUser size={iconSize} />,
     path: "/profile",
   },
@@ -117,7 +117,7 @@ const AppBar = () => {
                 <div className="relative opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-green-700 to-green-400 active:scale-95 rounded-[16px]">
                   <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-green}-500 text-white rounded-[14px]">
                     <FiCheckCircle size={iconSize} />
-                    Already presenced
+                    Sudah hadir
                   </span>
                 </div>
               </>
@@ -131,7 +131,7 @@ const AppBar = () => {
                     className={`w-full h-full flex items-center gap-2 px-8 py-3 bg-${isPresencedMorning ? "red" : "blue"}-500 text-white rounded-[14px]`}
                   >
                     <HiOutlineCamera size={iconSize} />
-                    Presence with camera
+                    Presensi dengan kamera
                   </span>
                 </button>
               </>

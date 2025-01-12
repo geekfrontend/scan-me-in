@@ -1,14 +1,13 @@
 "use client";
 
 import clsx from "clsx";
-import { format, parse } from "date-fns";
 import moment from "moment";
-import { useState } from "react";
 import {
   HiOutlineCheckCircle as CompletedIcon,
   HiOutlineClock as LateIcon,
   HiOutlineUser as PatientIcon,
 } from "react-icons/hi";
+import "moment/locale/id";
 
 import Image from "@/common/components/Image";
 import { HistoryItemProps } from "@/common/types";
@@ -19,10 +18,9 @@ const HistoryCard = ({
   check_out_time,
   status,
 }: HistoryItemProps) => {
-  const [isShowAction, setIsShowAction] = useState(false);
+  moment.locale("id");
 
-  const appointmentDate = parse(date, "yyyy-MM-dd", new Date());
-  const formattedDate = format(appointmentDate, "EEE, MMM dd, yyyy");
+  const formattedDate = moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY");
   const formattedStatus = status.charAt(0).toUpperCase() + status.slice(1);
 
   const getStatusIcon = () => {
@@ -52,10 +50,7 @@ const HistoryCard = ({
   };
 
   return (
-    <div
-      onClick={() => setIsShowAction(!isShowAction)}
-      className="flex flex-col items-center"
-    >
+    <div className="flex flex-col items-center">
       <div className="w-full p-5 border bg-white border-neutral-100 shadow-t-sm space-y-5 rounded-3xl cursor-pointer transition-all duration-300">
         <div className="flex gap-x-3 items-center pb-3 border-b border-neutral-100">
           <div className="p-1 bg-purple-50 rounded-full">
@@ -74,11 +69,15 @@ const HistoryCard = ({
         <div className="space-y-3">
           <div className="flex gap-2 text-xs">
             <PatientIcon size={14} />
-            <div>Check In: {moment(check_in_time).format("hh:mm A")} </div>
+            <div>
+              Masuk: {moment(check_in_time).locale("id").format("hh:mm A")}{" "}
+            </div>
           </div>
           <div className="flex gap-2 text-xs">
             <PatientIcon size={14} />
-            <div>Check Out: {moment(check_out_time).format("hh:mm A")}</div>
+            <div>
+              Keluar: {moment(check_out_time).locale("id").format("hh:mm A")}
+            </div>
           </div>
           <div className="flex gap-2 text-xs">
             {getStatusIcon()}
@@ -96,13 +95,6 @@ const HistoryCard = ({
           </div>
         </div>
       </div>
-      {isShowAction && (
-        <div className="bg-white w-max p-3 rounded-b-3xl shadow-b-sm border-neutral-100">
-          <button className="px-3 py-2 bg-blue-500 text-white rounded-full text-sm">
-            View Details
-          </button>
-        </div>
-      )}
     </div>
   );
 };

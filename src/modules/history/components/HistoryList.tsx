@@ -53,7 +53,7 @@ const HistoryList = () => {
         </div>
       ) : (
         <div className="py-12 text-center text-neutral-500">
-          No history found
+          Tidak ada riwayat
         </div>
       )}
     </div>

@@ -78,18 +78,18 @@ const Profile = () => {
   };
 
   const changeProfile = async (newPhotoURL: string) => {
-    setShowModal(false); // Tutup modal kamera
+    setShowModal(false);
     setUserData((prev) => ({ ...prev, photoURL: newPhotoURL }));
 
     try {
       const currentUser = auth.currentUser;
       if (currentUser) {
         await updateProfile(currentUser, { photoURL: newPhotoURL });
-        toast.success("Photo updated successfully");
+        toast.success("Foto berhasil diubah");
       }
     } catch (error) {
       console.error("Error updating photo:", error);
-      toast.error("Failed to update photo");
+      toast.error("Gagal mengganti foto");
     }
   };
 
@@ -106,18 +106,18 @@ const Profile = () => {
             <CameraHeader
               handleBack={() => setShowModal(false)}
               isBackButton
-              title="Presence with camera"
+              title="Ganti Foto"
             />
             <div className="relative flex flex-col justify-center p-4 w-full">
               <Camera
                 handleBack={() => setShowModal(false)}
-                changeProfile={changeProfile} // Pasang fungsi ini
+                changeProfile={changeProfile}
               />
             </div>
           </div>
         </div>
       )}
-      <PageHeader title="Profile" />
+      <PageHeader title="Profil" />
       <PageWrapper>
         <div className="space-y-2">
           <div className="w-24 relative mx-auto">
@@ -142,7 +142,7 @@ const Profile = () => {
           </div>
 
           <label htmlFor="profile-full-name" className="text-sm font-medium">
-            Full Name
+            Nama Lengkap
           </label>
           <input
             id="profile-full-name"
@@ -174,14 +174,14 @@ const Profile = () => {
             onClick={handleUpdateProfile}
             disabled={isUpdating}
           >
-            {isUpdating ? "Updating..." : "Update Profile"}
+            {isUpdating ? "Memperbarui..." : "Perbarui Profil"}
           </button>
 
           <button
             className="py-3 w-full text-sm font-medium rounded-lg bg-red-500 text-white"
             onClick={handleSignOut}
           >
-            Logout
+            Keluar
           </button>
         </div>
       </PageWrapper>

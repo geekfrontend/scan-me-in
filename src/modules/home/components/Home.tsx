@@ -18,15 +18,11 @@ const Home = () => {
           </div>
         </div>
 
-        <h3 className="text-lg font-medium mb-2">Today Attendance</h3>
+        <h3 className="text-lg font-medium mb-2">Hari ini</h3>
         <div className="flex gap-4">
+          <CheckCard title="Masuk" icon={<HiLogout size={30} />} time="10:00" />
           <CheckCard
-            title="Check In"
-            icon={<HiLogout size={30} />}
-            time="10:00"
-          />
-          <CheckCard
-            title="Check Out"
+            title="Keluar"
             icon={<HiLogout size={30} />}
             time="18:00"
           />

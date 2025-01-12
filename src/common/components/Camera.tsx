@@ -117,8 +117,8 @@ const Camera = ({
               detection2.descriptor,
             );
 
-            if (distance < 0.6) {
-              toast.success("Faces match with high confidence");
+            if (distance < 0.1) {
+              toast.success("Wajah cocok");
               if (check === "IN") {
                 checkIn(userId);
               } else {
@@ -126,10 +126,10 @@ const Camera = ({
               }
               handleBack();
             } else {
-              toast.error("Faces do not match");
+              toast.error("Wajah tidak cocok");
             }
           } else {
-            toast.error("Unable to detect faces in one or both images");
+            toast.error("Wajah tidak cocok");
           }
         } catch (error) {
           console.error("Error comparing images:", error);
@@ -168,7 +168,7 @@ const Camera = ({
                   className="cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-blue-700 to-blue-400 active:scale-95 rounded-[16px]"
                 >
                   <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-blue-500 text-white rounded-[14px]">
-                    {loading ? "Uploading..." : "Capture"}
+                    {loading ? <loading /> : "Unggah"}
                   </span>
                 </button>
               ) : (
@@ -177,7 +177,7 @@ const Camera = ({
                   className="cursor-pointer opacity-90 hover:opacity-100 transition-opacity p-[2px] bg-gradient-to-t from-green-700 to-green-400 active:scale-95 rounded-[16px]"
                 >
                   <span className="w-full h-full flex items-center gap-2 px-8 py-3 bg-green-500 text-white rounded-[14px]">
-                    {loading ? "Processing..." : "Capture & Compare"}
+                    {loading ? <loading /> : "Ambil Foto dan Cek"}
                   </span>
                 </button>
               )}
