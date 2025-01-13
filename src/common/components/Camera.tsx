@@ -117,7 +117,7 @@ const Camera = ({
               detection2.descriptor,
             );
 
-            if (distance < 0.1) {
+            if (distance < 0.3) {
               toast.success("Wajah cocok");
               if (check === "IN") {
                 checkIn(userId);

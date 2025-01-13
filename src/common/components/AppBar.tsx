@@ -96,7 +96,7 @@ const AppBar = () => {
               <CameraHeader
                 handleBack={() => setShowModal(false)}
                 isBackButton
-                title="Presence with camera"
+                title="Presensi"
               />
               <div className="relative flex flex-col justify-center p-4  dark:bg-gray-700 w-full">
                 <Camera
